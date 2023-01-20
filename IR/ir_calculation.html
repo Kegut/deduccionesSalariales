@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcula tu IR</title>
+
+    <script src="./ir_calculations.js"></script>
+</head>
+<body>
+    
+    <label>Escribí tu salario acá</label>
+    <input id="salary" class="form-control currency" type="text">
+
+    <form id="salary_calculations" class="box-form" action="" method="post"><!-- Campos deudas -->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div id="salary_fields">
+        <div class="form-group">
+        <div class="col-xs-12 col-lg-6 field-container"><label>Salario bruto mensual</label></div>
+        <div class="col-xs-12 col-lg-6 field-container"><input id="monthly_salary" class="form-control currency" disabled="disabled" type="text"></div>
+        </div>
+        <div class="form-group">
+        <div class="col-xs-12 col-lg-6 field-container"><label><b>Deducción INSS</b></label></div>
+        <div class="col-xs-12 col-lg-6 field-container"><input id="inss" class="form-control currency" disabled="disabled" type="text"></div>
+        </div>
+        <div class="form-group">
+        <div class="col-xs-12 col-lg-6 field-container"><label>Salario neto (luego de deducciones)</label></div>
+        <div class="col-xs-12 col-lg-6 field-container"><input id="after_inss" class="form-control currency" disabled="disabled" type="text"></div>
+        </div>
+        <div class="form-group">
+        <div class="col-xs-12 col-lg-6 field-container"><label><b>Deducción Impuesto sobre la Renta (IR)</b></label></div>
+        <div class="col-xs-12 col-lg-6 field-container"><input id="ir" class="form-control currency" disabled="disabled" type="text"></div>
+        </div>
+        <div class="form-group">
+        <div class="col-xs-12 col-lg-6 field-container"><label>Salario total con deducciones</label></div>
+        <div class="col-xs-12 col-lg-6 field-container"><input id="total_salary" class="form-control currency" disabled="disabled" type="text"></div>
+        </div>
+        </div>
+        
+        </form>
+
+        <div class="button-container"><button id="salary_calculate" name="button" type="button" data-action="calculate">Calcular ahora</button></div>
+
+        <script>
+            document.getElementById("salary_calculate").addEventListener("click",()=>{
+                bruto_anual = document.getElementById("salary").value;
+
+                
+                let inss = calculateInss(bruto_anual);
+
+                retrieveValue(bruto_anual - inss);
+                let ir = calculateIr();
+                let neto = calculateNeto(bruto_anual, inss, ir);
+
+                document.getElementById("monthly_salary").value = bruto_anual / 12;
+                document.getElementById("inss").value = inss;
+                document.getElementById("after_inss").value = bruto_anual - inss;
+                document.getElementById("ir").value = ir;
+                document.getElementById("total_salary").value = neto;
+            })
+
+        </script>
+
+</body>     
+</html>
